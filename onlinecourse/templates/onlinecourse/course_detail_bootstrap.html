@@ -50,7 +50,21 @@
                     </div>
                 {% endfor %}
             </div>
-            <!-- Course detail template changes go here -->
+            {% if user.is_authenticated and course.question_set.exists %}
+            <form method="post" action="{% url 'onlinecourse:submit' course.id %}">
+                {% csrf_token %}
+                <h3>Exam</h3>
+                {% for question in course.question_set.all %}
+                <fieldset class="card p-3 mt-2">
+                    <legend>{{ question.question_text }}</legend>
+                    {% for choice in question.choice_set.all %}
+                    <label><input type="checkbox" name="choices" value="{{ choice.id }}"> {{ choice.choice_text }}</label>
+                    {% endfor %}
+                </fieldset>
+                {% endfor %}
+                <button class="btn btn-primary mt-2" type="submit">Submit exam</button>
+            </form>
+            {% endif %}
     </div>
 </body>
 </html>
