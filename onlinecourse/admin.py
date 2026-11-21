@@ -4,14 +4,17 @@ from .models import Course, Lesson, Instructor, Learner, Question, Choice, Submi
 
 class QuestionInline(admin.StackedInline):
     model = Question
+    extra = 1
 
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
+    extra = 2
 
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
+    list_display = ("question_text",)
 
 
 class LessonInline(admin.StackedInline):
